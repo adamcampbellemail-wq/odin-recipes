@@ -1,12 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8"/>
-        <title>spaghet</title>
-        <link rel="stylesheet" href="styles.css">
-    </head>
-    <body>
-        <h1>somebody toucha my spaghet</h1>
-        <a href="recipes/spaghet.html">spaghet</a>
-    </body>
+<head>
+<meta charset="UTF-8"/>
+<title>BE NOT AFRAID</title>
+<style>
+  html, body {
+    background: black;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+  }
+
+  /* ---- Scrolling wall ---- */
+  .row { height: 48px; overflow: hidden; }
+
+  .track {
+    display: flex;
+    width: max-content;
+    white-space: nowrap;
+    animation: 20s linear infinite;
+  }
+
+  .to-right { animation-name: scroll-right; }
+  .to-left  { animation-name: scroll-left; }
+
+  .track a {
+    color: white;
+    text-decoration: none;
+    font-family: 'Trebuchet MS', Arial, sans-serif;
+    font-size: 1.5rem;
+    font-weight: bold;
+    line-height: 48px;
+    margin-right: 2rem;
+    cursor: pointer;
+  }
+
+  .track a:hover { color: red; }
+
+  @keyframes scroll-right {
+    from { transform: translateX(-50%); }
+    to   { transform: translateX(0); }
+  }
+
+  @keyframes scroll-left {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* ---- Final message ---- */
+  #final {
+    display: none;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  #final h1 {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', Arial, sans-serif;
+    animation: flash 1s steps(1) infinite;
+  }
+
+  @keyframes flash {
+    0%   { color: red; }
+    50%  { color: white; }
+  }
+</style>
+</head>
+<body>
+  <div id="wall"></div>
+
+  <div id="final">
+    <h1>BE NOT AFRAID</h1>
+  </div>
+
+  <audio id="music" src="song.mp3" loop></audio>
+
+  <script>
+    const wall = document.getElementById('wall');
+    const finalScreen = document.getElementById('final');
+    const music = document.getElementById('music');
+    const message = 'BE NOT AFRAID';
+    const rowHeight = 48;
+
+    function build() {
+      wall.innerHTML = '';
+      const rows = Math.ceil(window.innerHeight / rowHeight);
+      const copies = Math.ceil(window.innerWidth / 150) + 1;
+
+      for (let i = 0; i < rows; i++) {
+        const half = `<a>${message}</a>`.repeat(copies);
+        const row = document.createElement('div');
+        row.className = 'row';
+        row.innerHTML = `<div class="track ${i % 2 === 0 ? 'to-right' : 'to-left'}">${half}${half}</div>`;
+        wall.appendChild(row);
+      }
+    }
+
+    build();
+    window.addEventListener('resize', build);
+
+    // Clicking any message: start the song and swap to the final screen
+    wall.addEventListener('click', (e) => {
+      if (!e.target.closest('a')) return;
+      music.play();
+      wall.style.display = 'none';
+      finalScreen.style.display = 'flex';
+    });
+  </script>
+</body>
 </html>

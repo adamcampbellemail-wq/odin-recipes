@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>BE NOT AFRAID</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1 id="message">BE NOT AFRAID</h1>
+
+  <audio id="music" src="song.mp3" loop></audio>
+
+  <script>
+    const music = document.getElementById('music');
+    const message = document.getElementById('message');
+
+    // Start flashing when the music actually starts, stop if it pauses
+    music.addEventListener('playing', () => message.classList.add('flash'));
+    music.addEventListener('pause', () => message.classList.remove('flash'));
+
+    music.play().catch(() => {
+      // Autoplay blocked, so start on the first click or key press
+      const start = () => music.play();
+      document.addEventListener('click', start, { once: true });
+      document.addEventListener('keydown', start, { once: true });
+    });
+  </script>
+</body>
+</html>

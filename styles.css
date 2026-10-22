@@ -1,21 +1,76 @@
+html,
 body {
-  background-color: rgb(6, 247, 38);
+  background-color: black;
+  height: 100%;
+  margin: 0;
 }
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
 h1 {
-  color: black;
+  color: white;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
-h2 {
-  colour: orange;
+
+/* ---- Scrolling wall (index.html) ---- */
+
+.wall-page {
+  display: block;       /* undo the centring flexbox on this page */
+  overflow: hidden;
 }
-a {
-  color: blue;
+
+.row {
+  height: 48px;
+  overflow: hidden;
 }
-a:visited {
-  color: purple;
+
+.track {
+  display: flex;
+  width: max-content;
+  white-space: nowrap;
+  animation-duration: 20s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 }
-a:hover {
-  color: darkblue;
+
+.track a,
+.track a:visited {
+  color: white;
+  text-decoration: none;
+  font-family: 'Trebuchet MS', Arial, sans-serif;
+  font-size: 1.5rem;
+  font-weight: bold;
+  line-height: 48px;
+  margin-right: 2rem;
 }
-a:active {
+
+.track a:hover {
   color: red;
+}
+
+.to-right { animation-name: scroll-right; }
+.to-left  { animation-name: scroll-left; }
+
+@keyframes scroll-right {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+
+@keyframes scroll-left {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+h1.flash {
+  animation: flash 1s steps(1) infinite;
+}
+
+@keyframes flash {
+  0%   { color: red; }
+  50%  { color: white; }
 }
